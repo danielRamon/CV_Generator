@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    {% if identity %}
+        {#NAVBAR#}
+        <nav id="navbar-curriculum" class="navbar navbar-light bg-light sticky-top">
+            <a class="navbar-brand font-weight-bold" href="#top">{{ identity }}</a>
+            <ul id="nav-list" class="nav nav-pills">
+            </ul>
+        </nav>
+        <div class="parallax py-5" style="background-image: url('{% static 'curriculum/image/code.jpg' %}');">
+            <div class="card mb-3 d-flex mx-auto align-middle shadow-lg" style="max-width: 90%;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ identity.photo.url }}" alt="Curriculum photo" class="fit-image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ identity.motto }}</h5>
+                            <p class="card-text">
+                                {{ identity.summary }}
+                            </p>
+                            <div class="card-footer">
+                                <address>
+                                    <div class="row py-2 border-bottom">
+                                        <div class="col-sm-1 align-self-center">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="col ">
+                                            <a href="{{ identity.address.googleMap }}" target="_blank">
+                                                {{ identity.address.mail_address }}, {{ identity.address.cp_address }}<br>
+                                                {{ identity.address.city }}, {{ identity.address.state }}, {{ identity.address.country }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row py-2 border-bottom">
+                                        <div class="col-sm-1 align-self-center">
+                                            <i class="fas fa-at"></i>
+                                        </div>
+                                        <div class="col ">
+                                            <a href="{{ identity.sendEmail }}" target="_blank">
+                                                {{ identity.email }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row my-2 ">
+                                        <div class="col-sm-1 align-self-center">
+                                            <i class="fas fa-phone"></i>
+                                        </div>
+                                        <div class="col  ">
+                                            <a href="tel:{{ identity.phone }}" target="_blank">
+                                                {{ identity.phone }}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#WORK EXPERIENCE#}
+        {% if identity.workexperience_set.all %}
+            <div class="p-4 bg-dark text-white text-uppercase"><h1 id="work-experience">Work experience</h1></div>
+            {% for experience in identity.workexperience_set.all %}
+                <div class="parallax"
+                     style="background-image: url('{{ experience.logo.url }}'); padding-bottom: 15%; padding-top: 15%;  background-size: 100% 100%; ">
+                    <div class="semi-transparent card d-flex mx-auto align-middle text-black mb-3 shadow-lg"
+                         style="max-width: 90%;">
+                        <div class="card-header bg-light">
+                            <h3 class="card-title">{{ experience.job }}</h3>
+                            {#TIME WORKED CALCULATE#}
+                            <h5 class="card-subtitle mb-2 text-muted">
+                                {% if experience.yearWorking > 1 %}
+                                    {{ experience.yearWorking }} Years{% else %}{{ experience.yearWorking }}
+                                    Year{% endif %}
+                                {% if experience.monthWorking > 1 %}
+                                    {{ experience.monthWorking }} Months
+                                    {% elif experience.monthWorking > 0 %}{{ experience.monthWorking }}
+                                    Month{% endif %}</h5>
+                            <h4 class="card-subtitle mb-2 text-muted">{{ experience.enterprise }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h7 class="card-subtitle mb-2 text-muted">({{ experience.date_start }}
+                                - {{ experience.date_finish }})
+                            </h7>
+                            {% include 'curriculum/summary.html' with object=experience %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {#ACADEMICS STUDIES#}
+        {% if identity.education_set.all %}
+            <div class="p-4 bg-dark text-white text-uppercase"><h1 id="academic-studies">Academic studies</h1></div>
+            {% for education in identity.education_set.all %}
+                <div class="jumbotron">
+                    <div class="container">
+                        <h2 class="display-4">[{{ education.level }}] {{ education.specialization }}</h2>
+                        <h2 class="display-5">{{ education.study_center }}
+                            ({{ education.date_start }}-{{ education.date_finish }})</h2>
+                        <hr class="my-4">
+                        {% include 'curriculum/summary.html' with object=education %}
+
+                    </div>
+                </div>
+
+            {% endfor %}
+        {% endif %}
+        {#LANGUAGE SKILLS#}
+        {% if identity.languageskills_set.all %}
+            <div class="p-4 bg-dark text-white text-uppercase"><h1 id="language-skills">Language skills</h1></div>
+            <div class="container p-3">
+                {% for language in identity.languageskills_set.all %}
+                    <ul class="list-group bg-transparent p-3">
+                        <li class="list-group-item active semi-transparent">{{ language.language.name }}</li>
+                        <li class="list-group-item semi-transparent">Listening {{ language.listening }}</li>
+                        <li class="list-group-item semi-transparent">Writing {{ language.writing }}</li>
+                        <li class="list-group-item semi-transparent">Reading {{ language.reading }}</li>
+                        <li class="list-group-item semi-transparent">Speaking {{ language.speaking }}</li>
+                    </ul>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block extrajs %}
+    <script>
+        $("h1").each(function (index) {
+            console.log($(this));
+            $("#nav-list").append('<li class="nav-item"><a class="nav-link" href="#' + $(this).attr('id') + '">' + $(this).text() + '</a></li>');
+        });
+        $('body').scrollspy({target: '#navbar-curriculum', offset: 300});
+    </script>
+{% endblock %}

@@ -1,0 +1,19 @@
+.parallax {
+    /* Set a specific height */
+    height: content-box;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.fit-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.semi-transparent {
+   opacity: 0.9;
+}

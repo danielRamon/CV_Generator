@@ -1,0 +1,43 @@
+{#SUMMARY IN WORK EXPERIENCE#}
+{% if object.summary %}
+    <p class="card-text">{{ object.summary }}</p>
+
+    {#ACHIEVEMENTS IN WORK EXPERIENCE#}
+    {% if object.summary.achievement %}
+        <ul class="list-group my-3">
+        <li class="list-group-item active text-uppercase"><i
+                class="fas fa-medal pr-3"></i>Achievements
+            {% for achievement in object.summary.achievement.all %}
+                <li class="list-group-item">{{ achievement }}</li>
+            {% endfor %}
+    {% endif %}
+</ul>
+    {#SKILLS IN WORK EXPERIENCE#}
+    {% if object.summary.skills %}
+        <ul class="list-group my-3">
+
+        <li class="list-group-item active text-uppercase"><i
+                class="fas fa-user-tie pr-3"></i>Skills
+        </li>
+        {% for skill in object.summary.skills.all %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col"> {{ skill.skill }}</div>
+                    <div class="col text-center">
+                        {% for i in ""|ljust:"5" %}
+                            {% if forloop.counter <= skill.level %}
+                                <i class="fas fa-star text-warning center"></i>
+                            {% else %}
+                                <span class="far fa-star text-warning"></span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col text-right">
+                        <p class="text-muted font-weight-light">{{ skill.sector }}</p>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+{% endif %}
