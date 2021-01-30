@@ -16,5 +16,5 @@ node {
 
     // Start the tests
     stage 'Test'
-    sh "${env.WORKSPACE}/venv/bin/python34 manage.py test'
+    sh "${env.WORKSPACE}/venv/bin/python34 manage.py test"
 }
