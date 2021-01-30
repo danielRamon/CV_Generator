@@ -3,7 +3,7 @@ node {
     stage 'Checkout'
 
     // Get the code from a GitHub repository
-    git credentialsId: 'mycredentials', url: 'https://github.com/<user>/<project>/'
+    git url: 'https://github.com/danielRamon/CV_Generator.git'
 
     // Mark the code build 'stage'....
     stage 'Build'
