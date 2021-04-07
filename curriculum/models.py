@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
@@ -18,7 +19,8 @@ class Identity(models.Model):
     def sendEmail(self):
         url = "mailto:" + self.email + "?subject=Contacted via online CV"
         return url.replace(" ", "%20")
-
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     dni = models.CharField(max_length=9, unique=True, blank=False)
     name = models.CharField(max_length=30, blank=False)
     last_name = models.CharField(max_length=60)
