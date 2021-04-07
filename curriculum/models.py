@@ -56,7 +56,7 @@ class Summary(models.Model):
     def __str__(self):
         return self.summary
 
-    summary = models.TextField(max_length=600)
+    summary = models.TextField(max_length=800)
     skills = models.ManyToManyField('Skill')
     achievement = models.ManyToManyField('Achievement')
 
